@@ -1,0 +1,9 @@
+#container {
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    align-items: center;
+}
+.card {
+    width: 100vw !important;
+}
