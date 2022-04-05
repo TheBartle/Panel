@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if (!isset($_SESSION['zalogowany']))
+    if (!isset($_SESSION['logged']))
     {
         header("Location: ../");
         exit();
@@ -9,24 +9,21 @@
 <!DOCTYPE HTML>
 <html lang="pl">
 <head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>Osadnicy - gra przeglądarkowa</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Panel</title>
+    <?php include "templates/css.php" ?>
 </head>
 
 <body>
-<a href="logout.php">Wyloguj się</a>
-<?php
-//
-//	echo "<p>Witaj ".$_SESSION['user'].'! [ <a href="logout.php">Wyloguj się!</a> ]</p>';
-//	echo "<p><b>Drewno</b>: ".$_SESSION['drewno'];
-//	echo " | <b>Kamień</b>: ".$_SESSION['kamien'];
-//	echo " | <b>Zboże</b>: ".$_SESSION['zboze']."</p>";
-//
-//	echo "<p><b>E-mail</b>: ".$_SESSION['email'];
-//	echo "<br /><b>Dni premium</b>: ".$_SESSION['dnipremium']."</p>";
-//
-//?>
+<main>
+    <div class="container">
+        <h1 class="display-3">Witaj <?php echo $_SESSION['uname'] ?>!</h1>
+        <a href="logout.php">Wyloguj się</a>
+    </div>
+</main>
 
+<?php include "templates/footer.php" ?>
 </body>
 </html>

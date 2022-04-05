@@ -1,9 +1,7 @@
 <?php
-require_once "helpers/database.php";
+require_once "app/helpers/database.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['name']) && (isset($_POST['login']) && isset($_POST['password']) && isset($_POST['password2'])))) {
-
-    $debug = true;
 
     session_start();
     $all_good = true;
@@ -57,29 +55,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['name']) && (isset($_
         $all_good = false;
         $_SESSION['error_password'] = "Hasła <strong>muszą</strong> być identyczne";
     }
-    echo "ALL GOOD:".$all_good;
 
     if($all_good) {
         try {
             $conn = mysqli_connect($db_host, $db_login, $db_password, $db_name);
             if($conn == true) {
-                if (mysqli_num_rows($result = mysqli_query($conn, "SELECT users.name FROM users WHERE `login` = \"{$name}\"; ")) > 0) {
-                    echo "Taki user istnieje";
+                if (mysqli_num_rows($result = mysqli_query($conn, "SELECT users.name FROM users WHERE `login` = \"$login\"; ")) > 0) {
                     $_SESSION['error_userExists'] = "Użytkownik istnieje";
                 } else {
                     $password = password_hash($password, PASSWORD_BCRYPT);
-                    if ($result = mysqli_query($conn, "INSERT INTO users (name, login, password) VALUES (\"{$name}\", \"{$login}\", \"{$password}\");")) {
+                    if ($result = mysqli_query($conn, "INSERT INTO users (name, login, password) VALUES ('$name', '$login', '$password');")) {
                         mysqli_close($conn);
-                        //Przenieś do strony udana resjestracja i przejdź do strony logowania
+                        //register completed
+                        $_SESSION['registered'] = true;
+                        header('Location: ../welcome.php');
                     } else {
                         echo "Error " . mysqli_error($conn);
                     }
                 }
             }
         } catch (Exception $e) {
-            if ($debug) {
-                echo "<span style=\"color: red;\"> {$e} </span>";
-            }
+            echo "<span style=\"color: red;\"> {$e} </span>";
         }
     }
 }
@@ -91,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['name']) && (isset($_
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Formularz rejestracji</title>
-    <?php include "templates/css.php"?>
-    <link rel="stylesheet" href="../assets/css/forms.css">
+    <?php include "app/templates/css.php" ?>
+    <link rel="stylesheet" href="assets/css/forms.css">
 </head>
 
 <body>
@@ -100,6 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['name']) && (isset($_
     <div class="form-container">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
             <h2 class="text-center"><strong>Utwórz konto</strong></h2>
+
+            <?php if (isset($_SESSION['error_userExists'])) {
+                echo '<div class="alert alert-danger"><span class="mt-0">Użytkownik o takim loginie już <strong>istnieje</strong></span></div>';
+            }?>
+
 
             <div class="mb-3"><input class="form-control" type="text" name="name" placeholder="Imie" required="required" minlength="3" maxlength="20"/></div>
             <?php if (isset($_SESSION['error_name'])) {
@@ -125,6 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['name']) && (isset($_
     </div>
 </section>
 
-<?php include "templates/footer.php"?>
+<?php include "app/templates/footer.php" ?>
 </body>
 </html>

@@ -23,10 +23,10 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany'] == true))
     <section class="sform" id="container">
 
         <div class="form-container">
-            <form method="post">
+            <form method="post" action="app/login.php">
                 <h2 class="text-center"><strong>Logowanie do panelu</strong></h2>
-                <div class="mb-3"><input class="form-control" type="text" name="login" placeholder="Login" required="required" minlength="3" maxlength="24"/></div>
-                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Hasło" required="required" minlength="8"></div>
+                <div class="mb-3"><input id="login" class="form-control" type="text" name="login" placeholder="Login" required="required" minlength="3" maxlength="24"/></div>
+                <div class="mb-3"><input id="password" class="form-control" type="password" name="password" placeholder="Hasło" required="required" minlength="8"></div>
                 <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Zaloguj się</button></div>
             </form>
         </div>
@@ -43,8 +43,8 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany'] == true))
         $('#username').val("");
         $('#password').val("");
 
-        $("#form").submit(function() {
-            let userPut = $("#username")
+        $("form").submit(function() {
+            let userPut = $("#login")
             let user = userPut.val()
             userPut.val(btoa(user))
 
