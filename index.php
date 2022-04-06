@@ -25,8 +25,20 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany'] == true))
         <div class="form-container">
             <form method="post" action="app/login.php">
                 <h2 class="text-center"><strong>Logowanie do panelu</strong></h2>
-                <div class="mb-3"><input id="login" class="form-control" type="text" name="login" placeholder="Login" required="required" minlength="3" maxlength="24"/></div>
-                <div class="mb-3"><input id="password" class="form-control" type="password" name="password" placeholder="Hasło" required="required" minlength="8"></div>
+                <div class="mb-3">
+                    <input id="login" class="form-control" type="text" name="login" placeholder="Login" required="required" minlength="3" maxlength="20"/>
+                    <?php if (isset($_SESSION['error_login'])) {
+                        echo '<div class="alert alert-danger mt-1"><span>'.$_SESSION["error_login"].'</span></div>';
+                        unset($_SESSION['error_login']);
+                    }?>
+                </div>
+                <div class="mb-3">
+                    <input id="password" class="form-control" type="password" name="password" placeholder="Hasło" required="required" minlength="8">
+                    <?php if (isset($_SESSION['error_password'])) {
+                        echo '<div class="alert alert-danger mt-1"><span>'.$_SESSION["error_password"].'</span></div>';
+                        unset($_SESSION['error_password']);
+                    }?>
+                </div>
                 <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Zaloguj się</button></div>
             </form>
         </div>
@@ -35,9 +47,6 @@ if ((isset($_SESSION['zalogowany'])) && ($_SESSION['zalogowany'] == true))
 </main>
 
 <?php include "app/templates/footer.php"?>
-
-
-<script src="assets/js/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(() => {
         $('#username').val("");

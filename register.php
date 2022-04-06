@@ -99,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['name']) && (isset($_
 
             <?php if (isset($_SESSION['error_userExists'])) {
                 echo '<div class="alert alert-danger"><span class="mt-0">Użytkownik o takim loginie już <strong>istnieje</strong></span></div>';
+                unset($_SESSION['error_userExists']);
             }?>
 
 

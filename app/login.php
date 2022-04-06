@@ -36,10 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                 header('Location: ./');
             } else {
-                //PASSWORD ERROR
+                $_SESSION['error_password'] = "<strong>Błędne</strong> hasło";
+                header('Location: ../');
+                exit();
             }
         } else {
-            //LOGIN ERROR
+            $_SESSION['error_login'] = "<strong>Błędny</strong> login";
+            header('Location: ./');
+            exit();
         }
 
 

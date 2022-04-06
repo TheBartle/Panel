@@ -19,9 +19,13 @@
 <body>
 <main>
     <div class="container">
-        <h1 class="display-3">Witaj <?php echo $_SESSION['uname'] ?>!</h1>
+        <h1 class="display-3">Dzień dobry <?php echo $_SESSION['uname'] ?>!</h1>
         <a href="logout.php">Wyloguj się</a>
     </div>
+
+    <form>
+        <input type="date" class="form-control">
+    </form>
 </main>
 
 <?php include "templates/footer.php" ?>
